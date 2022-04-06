@@ -5,7 +5,7 @@ const handler = async (req, res) => {
   if (req.method === 'POST') {
     const data = req.body;
     const { email, password } = data;
-
+    const client = await connectToDatabase();
     if (
       !email ||
       !email.includes('@') ||
@@ -16,14 +16,21 @@ const handler = async (req, res) => {
         message:
           'Invalid input - password should also be at least 7 characters long.',
       });
+      client.close();
       return;
     }
 
-    const client = await connectToDatabase();
+    const db = client.db();
+
+    const existingUser = await db.collection('users').findOne({ email: email });
+
+    if (existingUser) {
+      res.status(422).json({ message: 'User exists already!' });
+      client.close();
+      return;
+    }
 
     const hashedPw = await hashedPassword(password);
-
-    const db = client.db();
 
     const result = await db.collection('users').insertOne({
       email: email,
@@ -31,6 +38,7 @@ const handler = async (req, res) => {
     });
 
     res.status(201).json({ message: 'Created user!' });
+    client.close();
   }
 };
 

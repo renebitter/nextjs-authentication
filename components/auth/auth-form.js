@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import classes from './auth-form.module.css';
 
-const createUser = async (email, password) => {
+async function createUser(email, password) {
   const response = await fetch('/api/auth/signup', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
@@ -14,11 +14,11 @@ const createUser = async (email, password) => {
 
   if (!response.ok) {
     //TODO: this returns an Unhandled Runtime Error. Use try/catch?
-    throw new Error(data.message || 'Something went wrong!');
+    throw Error(data.message || 'Something went wrong!');
+    return;
   }
-
   return data;
-};
+}
 
 const AuthForm = () => {
   const emailInputRef = useRef();
