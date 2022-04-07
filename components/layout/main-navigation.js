@@ -5,7 +5,7 @@ import classes from './main-navigation.module.css';
 
 function MainNavigation() {
   const { data: session, status } = useSession();
-  const loading = status === 'loading';
+  const authenticated = status === 'authenticated';
 
   const logoutHandler = () => {
     signOut();
@@ -20,13 +20,13 @@ function MainNavigation() {
       </Link>
       <nav>
         <ul>
-          {!session && (
+          {!session && !authenticated && (
             <li>
               <Link href='/auth'>Login</Link>
             </li>
           )}
 
-          {session && (
+          {session && authenticated && (
             <>
               <li>
                 <Link href='/profile'>Profile</Link>
