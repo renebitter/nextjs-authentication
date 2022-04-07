@@ -15,7 +15,6 @@ async function createUser(email, password) {
   if (!response.ok) {
     //TODO: this returns an Unhandled Runtime Error. Use try/catch?
     throw Error(data.message || 'Something went wrong!');
-    return;
   }
   return data;
 }
