@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
+import { signIn } from 'next-auth/react';
 import classes from './auth-form.module.css';
+import { useRouter } from 'next/router';
 
 async function createUser(email, password) {
   const response = await fetch('/api/auth/signup', {
@@ -15,7 +17,6 @@ async function createUser(email, password) {
   if (!response.ok) {
     //TODO: this returns an Unhandled Runtime Error. Use try/catch?
     throw Error(data.message || 'Something went wrong!');
-    return;
   }
   return data;
 }
@@ -24,6 +25,7 @@ const AuthForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -38,11 +40,18 @@ const AuthForm = () => {
     //TODO: add validation
 
     if (isLogin) {
-      // log user in
+      const result = await signIn('credentials', {
+        redirect: false,
+        email: enteredEmail,
+        password: enteredPassword,
+      });
+
+      if (!result.error) {
+        router.replace('/profile');
+      }
     } else {
       try {
         const result = createUser(enteredEmail, enteredPassword);
-        console.log(result);
       } catch (error) {
         console.log(error);
       }

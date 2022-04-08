@@ -1,5 +1,5 @@
 import { connectToDatabase } from '../../../util/db';
-import hashedPassword from '../../../util/auth';
+import { hashedPassword } from '../../../util/auth';
 
 const handler = async (req, res) => {
   if (req.method === 'POST') {
