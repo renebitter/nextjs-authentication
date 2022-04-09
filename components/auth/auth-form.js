@@ -3,7 +3,7 @@ import { signIn } from 'next-auth/react';
 import classes from './auth-form.module.css';
 import { useRouter } from 'next/router';
 
-async function createUser(email, password) {
+const createUser = async (email, password) => {
   const response = await fetch('/api/auth/signup', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
@@ -15,15 +15,16 @@ async function createUser(email, password) {
   const data = await response.json();
 
   if (!response.ok) {
-    //TODO: this returns an Unhandled Runtime Error. Use try/catch?
-    throw Error(data.message || 'Something went wrong!');
+    throw new Error(data.message || 'Something went wrong!');
   }
+
   return data;
-}
+};
 
 const AuthForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+
   const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
 
@@ -37,7 +38,7 @@ const AuthForm = () => {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    //TODO: add validation
+    // optional: Add validation
 
     if (isLogin) {
       const result = await signIn('credentials', {
@@ -47,11 +48,13 @@ const AuthForm = () => {
       });
 
       if (!result.error) {
+        // set some auth state
         router.replace('/profile');
       }
     } else {
       try {
-        const result = createUser(enteredEmail, enteredPassword);
+        const result = await createUser(enteredEmail, enteredPassword);
+        console.log(result);
       } catch (error) {
         console.log(error);
       }
