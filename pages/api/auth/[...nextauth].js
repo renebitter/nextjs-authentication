@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { verifyPassword } from '../../../util/auth';
 import { connectToDatabase } from '../../../util/db';
 
+//Used for login
 export default NextAuth({
   session: {
     jwt: true,
@@ -20,7 +21,7 @@ export default NextAuth({
 
         if (!user) {
           client.close();
-          throw new Error('No user found!');
+          throw new Error('No user found.');
         }
 
         const isValid = await verifyPassword(
@@ -29,7 +30,7 @@ export default NextAuth({
         );
 
         if (!isValid) {
-          throw new Error("PW doesn't match!");
+          throw new Error("E-mail and password don't match.");
         }
 
         client.close();

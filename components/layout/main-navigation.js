@@ -29,7 +29,9 @@ function MainNavigation() {
           {session && authenticated && (
             <>
               <li>
-                <Link href='/profile'>Profile</Link>
+                <Link href='/profile'>
+                  <a>Hello, {session.user.email}</a>
+                </Link>
               </li>
               <li>
                 <button onClick={logoutHandler}>Logout</button>
