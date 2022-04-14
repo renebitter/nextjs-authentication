@@ -1,5 +1,5 @@
 import { getSession } from 'next-auth/react';
-import { hashedPassword, verifyPassword } from '../../../util/auth';
+import { hashPassword, verifyPassword } from '../../../util/auth';
 import { connectToDatabase } from '../../../util/db';
 
 const handler = async (req, res) => {
@@ -18,21 +18,19 @@ const handler = async (req, res) => {
   const newPassword = req.body.newPassword;
 
   const client = await connectToDatabase();
-
   const usersCollection = client.db().collection('users');
-
   const user = await usersCollection.findOne({ email: userEmail });
+
+  const currentPassword = user.password;
+  const passwordsAreEqual = await verifyPassword(oldPassword, currentPassword);
+
+  const hashedPw = await hashPassword(newPassword);
 
   if (!user) {
     res.status(404).json({ message: 'User not found.' });
     client.close();
-
     return;
   }
-
-  const currentPassword = user.password;
-
-  const passwordsAreEqual = await verifyPassword(oldPassword, currentPassword);
 
   if (!passwordsAreEqual) {
     res.status(403).json({ message: 'Not authorized.' });
@@ -40,13 +38,18 @@ const handler = async (req, res) => {
     return;
   }
 
-  const hashedPw = await hashedPassword(newPassword);
+  if (!newPassword || newPassword.trim().length < 7) {
+    res
+      .status(422)
+      .json({ message: 'Password should be at least 7 characters long.' });
+    client.close();
+    return;
+  }
 
-  const result = await usersCollection.updateOne(
+  await usersCollection.updateOne(
     { email: userEmail },
     { $set: { password: hashedPw } }
   );
-
   client.close();
   res.status(200).json({ message: 'Password updated!' });
 };

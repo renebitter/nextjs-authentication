@@ -1,5 +1,5 @@
 import { connectToDatabase } from '../../../util/db';
-import { hashedPassword } from '../../../util/auth';
+import { hashPassword } from '../../../util/auth';
 
 const handler = async (req, res) => {
   if (req.method === 'POST') {
@@ -13,8 +13,7 @@ const handler = async (req, res) => {
       password.trim().length < 7
     ) {
       res.status(422).json({
-        message:
-          'Invalid input - password should also be at least 7 characters long.',
+        message: 'Password should be at least 7 characters long.',
       });
       client.close();
       return;
@@ -30,7 +29,7 @@ const handler = async (req, res) => {
       return;
     }
 
-    const hashedPw = await hashedPassword(password);
+    const hashedPw = await hashPassword(password);
 
     const result = await db.collection('users').insertOne({
       email: email,
