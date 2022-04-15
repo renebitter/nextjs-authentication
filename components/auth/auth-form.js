@@ -38,6 +38,7 @@ const AuthForm = () => {
   };
 
   useEffect(() => {
+    //TODO: outsource notification timeout to util/helper
     //Sets notification timeout
     if (requestStatus === 'success' || requestStatus === 'error') {
       const timer = setTimeout(() => {
@@ -74,9 +75,8 @@ const AuthForm = () => {
         setRequestStatus('error');
         setRequestError(result.error);
       }
-
-      //Create Account
     } else {
+      //Create Account
       try {
         //Creates user
         const result = await createUser(enteredEmail, enteredPassword);
@@ -100,6 +100,7 @@ const AuthForm = () => {
     }
   };
 
+  //TODO: outsource notification logic to util/helper
   let notification;
 
   if (requestStatus === 'pending') {
@@ -114,6 +115,7 @@ const AuthForm = () => {
     notification = {
       status: 'success',
       title: 'Success',
+      //TODO: when outsourcing needs to account for profile-form as well with data.message. if(data.message){data.message}else{'Authentication successful'}
       message: 'Authentication successful',
     };
   }

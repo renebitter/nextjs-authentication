@@ -13,6 +13,7 @@ function ProfileForm(props) {
   const [requestSuccess, setRequestSuccess] = useState();
 
   useEffect(() => {
+    //TODO: outsource notification timeout to util/helper
     //Sets notification timeout
     if (requestStatus === 'success' || requestStatus === 'error') {
       const timer = setTimeout(() => {
@@ -61,7 +62,7 @@ function ProfileForm(props) {
       setRequestError(error.message);
     }
   };
-
+  //TODO: outsource notification logic to util/helper
   let notification;
 
   if (requestStatus === 'pending') {
