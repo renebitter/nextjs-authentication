@@ -5,7 +5,14 @@ const handler = async (req, res) => {
   if (req.method === 'POST') {
     const data = req.body;
     const { email, password } = data;
+
     const client = await connectToDatabase();
+    const db = client.db();
+
+    const existingUser = await db.collection('users').findOne({ email: email });
+
+    const hashedPw = await hashPassword(password);
+
     if (
       !email ||
       !email.includes('@') ||
@@ -19,17 +26,11 @@ const handler = async (req, res) => {
       return;
     }
 
-    const db = client.db();
-
-    const existingUser = await db.collection('users').findOne({ email: email });
-
     if (existingUser) {
       res.status(422).json({ message: 'User exists already!' });
       client.close();
       return;
     }
-
-    const hashedPw = await hashPassword(password);
 
     const result = await db.collection('users').insertOne({
       email: email,
