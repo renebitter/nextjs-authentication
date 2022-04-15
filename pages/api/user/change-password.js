@@ -3,15 +3,7 @@ import { hashPassword, verifyPassword } from '../../../util/auth';
 import { connectToDatabase } from '../../../util/db';
 
 const handler = async (req, res) => {
-  if (req.method !== 'PATCH') {
-    return;
-  }
   const session = await getSession({ req: req });
-
-  if (!session) {
-    res.status(401).json({ message: 'Not authenticated!' });
-    return;
-  }
 
   const userEmail = session.user.email;
   const oldPassword = req.body.oldPassword;
@@ -23,8 +15,16 @@ const handler = async (req, res) => {
 
   const currentPassword = user.password;
   const passwordsAreEqual = await verifyPassword(oldPassword, currentPassword);
-
   const hashedPw = await hashPassword(newPassword);
+
+  if (req.method !== 'PATCH') {
+    return;
+  }
+
+  if (!session) {
+    res.status(401).json({ message: 'Not authenticated!' });
+    return;
+  }
 
   if (!user) {
     res.status(404).json({ message: 'User not found.' });
@@ -53,4 +53,5 @@ const handler = async (req, res) => {
   client.close();
   res.status(200).json({ message: 'Password updated!' });
 };
+
 export default handler;
