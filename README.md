@@ -10,16 +10,17 @@ Project built using `next-auth` library to handle authentication.
   Contains the 'session context' and is exposed at the top level of the application `_app.js`.
   `<SessionProvider session={pageProps.session}>` This will skip the 'session http request' on `profile.js` since it's provided by `getServerSideProps(context)` on `profile.js`.
   `auth.js` will send this 'session http request' since it does not have a `getServerSideProps(context)`.
-  <br/>
+
 - `useSession()`
   Frontend - Add React Hook. Checks if someone is signed in. Used in `main-navigation.js` component.
-  <br/>
+
 - `getSession()`
   Backend - Used to protect the API Route.
-  <br/>
+
 - `CredentialsProvider`
   Manages token creation behind the scenes, `JWT` (JSON Web Token), used in `/api/auth/[...nextauth]`.
   Needs to be a 'catch all route' because `next-auth` exposes multiple routes for login, logout and others more.
+
   <sup>_List of `next-auth` exposed routes (**that should not be overwritten by your custom ones**): [https://next-auth.js.org/getting-started/rest-api](https://next-auth.js.org/getting-started/rest-api).
   Other providers overview: [https://next-auth.js.org/providers/](https://next-auth.js.org/providers/)_</sup>
 
