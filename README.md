@@ -22,7 +22,6 @@ Project built using `next-auth` library to handle authentication.
   Needs to be a 'catch all route' because `next-auth` exposes multiple routes for login, logout and others more.
 
   <sup>_List of `next-auth` exposed routes (**that should not be overwritten by your custom ones**): [https://next-auth.js.org/getting-started/rest-api](https://next-auth.js.org/getting-started/rest-api)._</sup>
-
   <sup>_Other providers overview: [https://next-auth.js.org/providers/](https://next-auth.js.org/providers/)_</sup>
 
 #### Next:
