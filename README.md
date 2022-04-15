@@ -21,8 +21,9 @@ Project built using `next-auth` library to handle authentication.
   Manages token creation behind the scenes, `JWT` (JSON Web Token), used in `/api/auth/[...nextauth]`.
   Needs to be a 'catch all route' because `next-auth` exposes multiple routes for login, logout and others more.
 
-  <sup>_List of `next-auth` exposed routes (**that should not be overwritten by your custom ones**): [https://next-auth.js.org/getting-started/rest-api](https://next-auth.js.org/getting-started/rest-api).
-  Other providers overview: [https://next-auth.js.org/providers/](https://next-auth.js.org/providers/)_</sup>
+  <sup>_List of `next-auth` exposed routes (**that should not be overwritten by your custom ones**): [https://next-auth.js.org/getting-started/rest-api](https://next-auth.js.org/getting-started/rest-api)._</sup>
+
+  <sup>_Other providers overview: [https://next-auth.js.org/providers/](https://next-auth.js.org/providers/)_</sup>
 
 #### Next:
 
