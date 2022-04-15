@@ -1,8 +1,10 @@
+import classes from './notification.module.css';
+
 function Notification(props) {
   const { title, message } = props;
 
   return (
-    <div style={{ color: 'white', backgroundColor: '#38015c' }}>
+    <div className={classes.notification}>
       <h2>{title}</h2>
       <p>{message}</p>
     </div>

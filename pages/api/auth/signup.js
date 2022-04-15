@@ -36,7 +36,7 @@ const handler = async (req, res) => {
       password: hashedPw,
     });
 
-    res.status(201).json({ message: 'Created user!' });
+    res.status(201).json({ message: 'User created!' });
     client.close();
   }
 };
