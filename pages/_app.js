@@ -5,7 +5,8 @@ import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
   return (
-    //pageProps.session is provided by profile.js getServerSideProps. Providing it here will skip the "session http request" to check if there is a session when reloading the "/profile". "/auth" on the other hand will send the "session http request" since it does not provide "pageProps.session" hence returning it "undefined"
+    //"pageProps.session" is provided by profile.js getServerSideProps(context). Declaring it here will skip the "session http request" which is sent when reloading the "profile.js" page.
+    //"auth.js" page will send this "session http request" since it does not have a getServerSideProps(context) function.
     <SessionProvider session={pageProps.session}>
       <Layout>
         <Component {...pageProps} />
