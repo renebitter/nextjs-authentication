@@ -130,31 +130,73 @@ const AuthForm = () => {
 
   return (
     <section className={classes.auth}>
-      <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-      <form onSubmit={submitHandler}>
-        <div className={classes.control}>
-          <label htmlFor='email'>Your Email</label>
-          <input type='email' id='email' required ref={emailInputRef} />
+      <div className={classes.card}>
+        <div className={classes.content}>
+          <div className={classes.front}>
+            <div className={classes.innerContent}>
+              <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
+              <form is={classes.loginForm} onSubmit={submitHandler}>
+                <div className={classes.control}>
+                  <label htmlFor='email'>Your Email</label>
+                  <input type='email' id='email' required ref={emailInputRef} />
+                </div>
+                <div className={classes.control}>
+                  <label htmlFor='password'>Your Password</label>
+                  <input
+                    type='password'
+                    id='password'
+                    required
+                    ref={passwordInputRef}
+                  />
+                </div>
+                <div className={classes.actions}>
+                  <button>{isLogin ? 'Login' : 'Create Account'}</button>
+                  <button
+                    type='button'
+                    className={classes.toggle}
+                    onClick={switchAuthModeHandler}>
+                    {isLogin
+                      ? 'Create new account'
+                      : 'Login with existing account'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div className={classes.back}>
+            <div className={classes.innerContent}>
+              <h1>Sign Up</h1>
+              <form id={classes.registerForm} onSubmit={submitHandler}>
+                <div className={classes.control}>
+                  <label htmlFor='email'>Your Email</label>
+                  <input type='email' id='email' required ref={emailInputRef} />
+                </div>
+                <div className={classes.control}>
+                  <label htmlFor='password'>Your Password</label>
+                  <input
+                    type='password'
+                    id='password'
+                    required
+                    ref={passwordInputRef}
+                  />
+                </div>
+                <div className={classes.actions}>
+                  <button>{isLogin ? 'Login' : 'Create Account'}</button>
+                  <button
+                    type='button'
+                    className={classes.toggle}
+                    onClick={switchAuthModeHandler}>
+                    {isLogin
+                      ? 'Create new account'
+                      : 'Login with existing account'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-        <div className={classes.control}>
-          <label htmlFor='password'>Your Password</label>
-          <input
-            type='password'
-            id='password'
-            required
-            ref={passwordInputRef}
-          />
-        </div>
-        <div className={classes.actions}>
-          <button>{isLogin ? 'Login' : 'Create Account'}</button>
-          <button
-            type='button'
-            className={classes.toggle}
-            onClick={switchAuthModeHandler}>
-            {isLogin ? 'Create new account' : 'Login with existing account'}
-          </button>
-        </div>
-      </form>
+      </div>
 
       {notification && (
         <Notification
