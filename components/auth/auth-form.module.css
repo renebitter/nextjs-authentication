@@ -111,10 +111,6 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  /* line-height: 300px;
-  text-align: center;
-  font-size: 60px;
-  border-radius: 5px; */
   backface-visibility: hidden;
   transform-style: preserve-3d;
 }
