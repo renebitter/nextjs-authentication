@@ -33,21 +33,21 @@ const AuthForm = () => {
   const [requestStatus, setRequestStatus] = useState();
   const [requestError, setRequestError] = useState();
 
-  const switchAuthModeHandler = () => {
+  const switchAuthModeHandler = (event) => {
     setIsLogin((prevState) => !prevState);
   };
 
-  useEffect(() => {
-    //TODO: outsource notification timeout to util/helper
-    //Sets notification timeout
-    if (requestStatus === 'success' || requestStatus === 'error') {
-      const timer = setTimeout(() => {
-        setRequestStatus(null);
-        setRequestError(null);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [requestStatus]);
+  // useEffect(() => {
+  //   //TODO: outsource notification timeout to util/helper
+  //   //Sets notification timeout
+  //   if (requestStatus === 'success' || requestStatus === 'error') {
+  //     const timer = setTimeout(() => {
+  //       setRequestStatus(null);
+  //       setRequestError(null);
+  //     }, 3000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [requestStatus]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -131,10 +131,15 @@ const AuthForm = () => {
   return (
     <section className={classes.auth}>
       <div className={classes.card}>
-        <div className={classes.content}>
+        <div
+          className={
+            isLogin
+              ? classes.content
+              : classes.content + ' ' + classes.cardRotate
+          }>
           <div className={classes.front}>
             <div className={classes.innerContent}>
-              <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
+              <h1>Login</h1>
               <form is={classes.loginForm} onSubmit={submitHandler}>
                 <div className={classes.control}>
                   <label htmlFor='email'>Your Email</label>

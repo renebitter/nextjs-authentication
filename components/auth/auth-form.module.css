@@ -96,14 +96,19 @@
   transform-style: preserve-3d;
 }
 
-.card:hover .content {
+/* .card:hover .content {
+  transform: rotateY(180deg);
+  transition: transform 0.8s;
+} */
+
+.cardRotate {
   transform: rotateY(180deg);
   transition: transform 0.8s;
 }
 
-.innerContent {
-  transform: translatez(40px);
-}
+/* .innerContent {
+  transform: translatez(70px);
+} */
 
 .front,
 .back {
