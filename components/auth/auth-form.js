@@ -28,12 +28,14 @@ const AuthForm = () => {
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const emailRegisterInputRef = useRef();
+  const passwordRegisterInputRef = useRef();
 
   const [isLogin, setIsLogin] = useState(true);
   const [requestStatus, setRequestStatus] = useState();
   const [requestError, setRequestError] = useState();
 
-  const switchAuthModeHandler = () => {
+  const switchAuthModeHandler = (event) => {
     setIsLogin((prevState) => !prevState);
   };
 
@@ -56,6 +58,8 @@ const AuthForm = () => {
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
+    const enteredRegisterEmail = emailRegisterInputRef.current.value;
+    const enteredRegisterPassword = passwordRegisterInputRef.current.value;
 
     //Login
     if (isLogin) {
@@ -79,7 +83,10 @@ const AuthForm = () => {
       //Create Account
       try {
         //Creates user
-        const result = await createUser(enteredEmail, enteredPassword);
+        const result = await createUser(
+          enteredRegisterEmail,
+          enteredRegisterPassword
+        );
 
         console.log(result);
         setRequestStatus('success');
@@ -87,8 +94,8 @@ const AuthForm = () => {
         //Signs in
         await signIn('credentials', {
           redirect: false,
-          email: enteredEmail,
-          password: enteredPassword,
+          email: enteredRegisterEmail,
+          password: enteredRegisterPassword,
         });
 
         //Redirects
@@ -130,31 +137,84 @@ const AuthForm = () => {
 
   return (
     <section className={classes.auth}>
-      <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-      <form onSubmit={submitHandler}>
-        <div className={classes.control}>
-          <label htmlFor='email'>Your Email</label>
-          <input type='email' id='email' required ref={emailInputRef} />
+      <div className={classes.card}>
+        <div
+          className={
+            isLogin
+              ? classes.content
+              : classes.content + ' ' + classes.cardRotate
+          }>
+          <div className={classes.front}>
+            <div className={classes.innerContent}>
+              <h1>Login</h1>
+              <form is={classes.loginForm} onSubmit={submitHandler}>
+                <div className={classes.control}>
+                  <label htmlFor='login-email'>Your Email</label>
+                  <input
+                    type='email'
+                    id='login-email'
+                    required
+                    ref={emailInputRef}
+                  />
+                </div>
+                <div className={classes.control}>
+                  <label htmlFor='login-password'>Your Password</label>
+                  <input
+                    type='password'
+                    id='login-password'
+                    required
+                    ref={passwordInputRef}
+                  />
+                </div>
+                <div className={classes.actions}>
+                  <button>Login</button>
+                  <button
+                    type='button'
+                    className={classes.toggle}
+                    onClick={switchAuthModeHandler}>
+                    Create new account
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div className={classes.back}>
+            <div className={classes.innerContent}>
+              <h1>Sign Up</h1>
+              <form id={classes.registerForm} onSubmit={submitHandler}>
+                <div className={classes.control}>
+                  <label htmlFor='register-email'>Your Email</label>
+                  <input
+                    type='email'
+                    id='register-email'
+                    required
+                    ref={emailRegisterInputRef}
+                  />
+                </div>
+                <div className={classes.control}>
+                  <label htmlFor='register-password'>Your Password</label>
+                  <input
+                    type='password'
+                    id='register-password'
+                    required
+                    ref={passwordRegisterInputRef}
+                  />
+                </div>
+                <div className={classes.actions}>
+                  <button>Create Account</button>
+                  <button
+                    type='button'
+                    className={classes.toggle}
+                    onClick={switchAuthModeHandler}>
+                    Login with existing account
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-        <div className={classes.control}>
-          <label htmlFor='password'>Your Password</label>
-          <input
-            type='password'
-            id='password'
-            required
-            ref={passwordInputRef}
-          />
-        </div>
-        <div className={classes.actions}>
-          <button>{isLogin ? 'Login' : 'Create Account'}</button>
-          <button
-            type='button'
-            className={classes.toggle}
-            onClick={switchAuthModeHandler}>
-            {isLogin ? 'Create new account' : 'Login with existing account'}
-          </button>
-        </div>
-      </form>
+      </div>
 
       {notification && (
         <Notification

@@ -89,7 +89,7 @@ function ProfileForm(props) {
     };
   }
 
-  const togglePassword = () => {
+  const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
@@ -111,7 +111,10 @@ function ProfileForm(props) {
           ref={oldPasswordRef}
         />
       </div>
-      <button type='button' onClick={togglePassword}>
+      <button
+        type='button'
+        className={classes.toggle}
+        onClick={toggleShowPassword}>
         {showPassword ? 'Hide Passwords' : 'Show Passwords'}
       </button>
       <div className={classes.action}>
