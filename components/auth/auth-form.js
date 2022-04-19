@@ -28,6 +28,8 @@ const AuthForm = () => {
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const emailRegisterInputRef = useRef();
+  const passwordRegisterInputRef = useRef();
 
   const [isLogin, setIsLogin] = useState(true);
   const [requestStatus, setRequestStatus] = useState();
@@ -37,17 +39,17 @@ const AuthForm = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  // useEffect(() => {
-  //   //TODO: outsource notification timeout to util/helper
-  //   //Sets notification timeout
-  //   if (requestStatus === 'success' || requestStatus === 'error') {
-  //     const timer = setTimeout(() => {
-  //       setRequestStatus(null);
-  //       setRequestError(null);
-  //     }, 3000);
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [requestStatus]);
+  useEffect(() => {
+    //TODO: outsource notification timeout to util/helper
+    //Sets notification timeout
+    if (requestStatus === 'success' || requestStatus === 'error') {
+      const timer = setTimeout(() => {
+        setRequestStatus(null);
+        setRequestError(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [requestStatus]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -56,6 +58,8 @@ const AuthForm = () => {
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
+    const enteredRegisterEmail = emailRegisterInputRef.current.value;
+    const enteredRegisterPassword = passwordRegisterInputRef.current.value;
 
     //Login
     if (isLogin) {
@@ -79,7 +83,10 @@ const AuthForm = () => {
       //Create Account
       try {
         //Creates user
-        const result = await createUser(enteredEmail, enteredPassword);
+        const result = await createUser(
+          enteredRegisterEmail,
+          enteredRegisterPassword
+        );
 
         console.log(result);
         setRequestStatus('success');
@@ -87,8 +94,8 @@ const AuthForm = () => {
         //Signs in
         await signIn('credentials', {
           redirect: false,
-          email: enteredEmail,
-          password: enteredPassword,
+          email: enteredRegisterEmail,
+          password: enteredRegisterPassword,
         });
 
         //Redirects
@@ -142,27 +149,30 @@ const AuthForm = () => {
               <h1>Login</h1>
               <form is={classes.loginForm} onSubmit={submitHandler}>
                 <div className={classes.control}>
-                  <label htmlFor='email'>Your Email</label>
-                  <input type='email' id='email' required ref={emailInputRef} />
+                  <label htmlFor='login-email'>Your Email</label>
+                  <input
+                    type='email'
+                    id='login-email'
+                    required
+                    ref={emailInputRef}
+                  />
                 </div>
                 <div className={classes.control}>
-                  <label htmlFor='password'>Your Password</label>
+                  <label htmlFor='login-password'>Your Password</label>
                   <input
                     type='password'
-                    id='password'
+                    id='login-password'
                     required
                     ref={passwordInputRef}
                   />
                 </div>
                 <div className={classes.actions}>
-                  <button>{isLogin ? 'Login' : 'Create Account'}</button>
+                  <button>Login</button>
                   <button
                     type='button'
                     className={classes.toggle}
                     onClick={switchAuthModeHandler}>
-                    {isLogin
-                      ? 'Create new account'
-                      : 'Login with existing account'}
+                    Create new account
                   </button>
                 </div>
               </form>
@@ -174,27 +184,30 @@ const AuthForm = () => {
               <h1>Sign Up</h1>
               <form id={classes.registerForm} onSubmit={submitHandler}>
                 <div className={classes.control}>
-                  <label htmlFor='email'>Your Email</label>
-                  <input type='email' id='email' required ref={emailInputRef} />
+                  <label htmlFor='register-email'>Your Email</label>
+                  <input
+                    type='email'
+                    id='register-email'
+                    required
+                    ref={emailRegisterInputRef}
+                  />
                 </div>
                 <div className={classes.control}>
-                  <label htmlFor='password'>Your Password</label>
+                  <label htmlFor='register-password'>Your Password</label>
                   <input
                     type='password'
-                    id='password'
+                    id='register-password'
                     required
-                    ref={passwordInputRef}
+                    ref={passwordRegisterInputRef}
                   />
                 </div>
                 <div className={classes.actions}>
-                  <button>{isLogin ? 'Login' : 'Create Account'}</button>
+                  <button>Create Account</button>
                   <button
                     type='button'
                     className={classes.toggle}
                     onClick={switchAuthModeHandler}>
-                    {isLogin
-                      ? 'Create new account'
-                      : 'Login with existing account'}
+                    Login with existing account
                   </button>
                 </div>
               </form>

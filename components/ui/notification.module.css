@@ -1,8 +1,20 @@
 .notification {
-  position: absolute;
-  top: 50%;
-  bottom: 50%;
-  transform: translate(-50%, -50%);
+  background-color: rgba(41, 46, 100, 0.95);
   color: white;
-  background-color: black;
+  padding: 15px;
+  margin-top: 25px;
+  box-shadow: 0 5px 5px rgb(0 0 0 / 50%);
+  border-radius: 6px;
+}
+
+.success {
+  background-color: rgba(29, 207, 23, 0.95);
+}
+.error {
+  background-color: rgba(207, 23, 32, 0.95);
+}
+
+.notification h2,
+.notification p {
+  margin: 0;
 }

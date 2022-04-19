@@ -73,20 +73,14 @@
 }
 
 .card {
-  position: absolute;
   top: 25%;
   left: 50%;
-  width: 350px;
-
   height: 350px;
   perspective: 500px;
-  transform: translate(-50%, -50%);
   transform-style: preserve-3d;
 }
 
 .content {
-  position: absolute;
-
   width: 100%;
   height: 100%;
   border-radius: 6px;
@@ -96,19 +90,10 @@
   transform-style: preserve-3d;
 }
 
-/* .card:hover .content {
-  transform: rotateY(180deg);
-  transition: transform 0.8s;
-} */
-
 .cardRotate {
   transform: rotateY(180deg);
   transition: transform 0.8s;
 }
-
-/* .innerContent {
-  transform: translatez(70px);
-} */
 
 .front,
 .back {

@@ -43,3 +43,13 @@
   background-color: #540d83;
   border-color: #540d83;
 }
+
+.toggle {
+  margin-top: 1rem;
+  background-color: transparent;
+  color: #f067ff;
+  border: none;
+  font-weight: normal;
+  text-decoration: underline;
+  padding: 0.15rem 1.5rem;
+}
